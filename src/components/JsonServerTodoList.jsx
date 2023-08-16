@@ -3,7 +3,7 @@ import { TodoElement } from "./TodoElement";
 import { SearchTodo } from "./SearchTodo";
 import { NewTodoInput } from "./NewTodoInput";
 
-import { Layout, Divider } from "antd";
+import { Breadcrumb, Layout, Divider } from "antd";
 
 const { Header, Content } = Layout;
 
@@ -53,29 +53,6 @@ export const JsonServerTodoList = () => {
     setRequestUpdate(true);
   };
 
-  const onCheckboxClick = async (id) => {
-    const findedItem = todos.find((item) => {
-      return item.id === id;
-    });
-    setLoading(true);
-    await fetch(`http://localhost:3001/todos/${findedItem.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json;charset=utf-8" },
-      body: JSON.stringify({
-        completed: !findedItem.completed,
-      }),
-    });
-    setRequestUpdate(true);
-  };
-
-  const onDeleteClick = async (id) => {
-    setLoading(true);
-    await fetch(`http://localhost:3001/todos/${id}`, {
-      method: "DELETE",
-    });
-    setRequestUpdate(true);
-  };
-
   const onSearchChange = (value) => {
     setSearchValue(value);
   };
@@ -89,6 +66,10 @@ export const JsonServerTodoList = () => {
         <h3>Todo лист (JSON Server)</h3>
       </Header>
       <Content style={{ padding: "50px 50px" }}>
+        <Breadcrumb style={{ margin: "16px 0" }}>
+          <Breadcrumb.Item>Список дел</Breadcrumb.Item>
+        </Breadcrumb>
+        <Divider/>
         <SearchTodo
           isSorted={isSorted}
           onSearchChange={onSearchChange}
@@ -97,15 +78,7 @@ export const JsonServerTodoList = () => {
         <Divider />
         <NewTodoInput onAddTodoItem={onAddTodoItem} loading={loading} />
         {sortedTodos?.map((todo) => {
-          return (
-            <TodoElement
-              key={todo.id}
-              item={todo}
-              onCheckboxClick={onCheckboxClick}
-              onDeleteClick={onDeleteClick}
-              loading={loading}
-            />
-          );
+          return <TodoElement key={todo.id} item={todo} loading={loading} />;
         })}
       </Content>
     </Layout>

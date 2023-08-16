@@ -1,12 +1,10 @@
 import React from "react";
-
-import { JsonServerTodoList } from "./components/JsonServerTodoList";
+import { Router } from "./router/Router";
 
 function App() {
-
   return (
     <div className="App">
-      <JsonServerTodoList />
+      <Router />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
-import { Row, Col, Checkbox, Button, Divider } from "antd";
+import { Row, Col, Button, Divider } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 export const TodoElement = ({
   item,
@@ -8,37 +9,29 @@ export const TodoElement = ({
   onCheckboxClick,
   onDeleteClick,
 }) => {
-  const { title, completed, id } = item;
+  const { title, id } = item;
 
   return (
-    <>
-      <Divider />
-      <Row gutter={16}>
-        <Col span={18}>
-          <Checkbox
-            checked={completed}
-            disabled={loading}
-            onClick={() => {
-              if (onCheckboxClick) {
-                onCheckboxClick(id);
-              }
-            }}
-          >
-            {title}
-          </Checkbox>
-        </Col>
-        {!!onDeleteClick && (
-          <Col span={6}>
-            <Button
-              danger
-              value="small"
-              loading={loading}
-              icon={<DeleteOutlined />}
-              onClick={() => onDeleteClick(id)}
-            />
+    <Link to={`/task/${id}`} >
+      <div className="todo-item">
+        <Divider />
+        <Row gutter={16}>
+          <Col span={18}>
+            <span className="todo-item-text">{title}</span>
           </Col>
-        )}
-      </Row>
-    </>
+          {!!onDeleteClick && (
+            <Col span={6}>
+              <Button
+                danger
+                value="small"
+                loading={loading}
+                icon={<DeleteOutlined />}
+                onClick={() => onDeleteClick(id)}
+              />
+            </Col>
+          )}
+        </Row>
+      </div>
+    </Link>
   );
 };
